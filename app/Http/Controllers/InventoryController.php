@@ -135,7 +135,7 @@ class InventoryController extends Controller
 
     public function getOngoingdonations(){
         $donors = Donor::with(['inventories' => function ($inventory) {
-                $inventory->orderByRaw("CAST(count as Integer) DESC")->first();
+                $inventory->orderByRaw("count DESC")->first();
                 }])->get();
 
         $now = Carbon::now();
@@ -143,7 +143,7 @@ class InventoryController extends Controller
         $donorids =[];
 
         foreach ($donors as $donor) {
-            $inventories = Inventory::where('donor_id',$donor->id)->orderByRaw("CAST(count as Integer) DESC")->get();
+            $inventories = Inventory::where('donor_id',$donor->id)->orderByRaw("count DESC")->get();
 
             if (!$inventories->isEmpty()) {
                 $dod = Carbon::parse($inventories[0]->dod);
@@ -191,7 +191,7 @@ class InventoryController extends Controller
             ->addColumn('lastdate', function(Donor $donor) {
                 $donor_id = $donor->id;
 
-                $inventories = Inventory::where('donor_id',$donor_id)->orderByRaw("CAST(count as Integer) DESC")->get();
+                $inventories = Inventory::where('donor_id',$donor_id)->orderByRaw("count DESC")->get();
 
 
                 if ($inventories->isEmpty()) {
@@ -213,7 +213,7 @@ class InventoryController extends Controller
             ->addColumn('frequency', function(Donor $donor) {
                 $donor_id = $donor->id;
 
-                $inventories = Inventory::where('donor_id',$donor_id)->orderByRaw("CAST(count as Integer) DESC")->get();
+                $inventories = Inventory::where('donor_id',$donor_id)->orderByRaw("count DESC")->get();
 
                 // dd($inventories->isEmpty());
 
@@ -285,7 +285,7 @@ class InventoryController extends Controller
             ->addColumn('lastdate', function(Inventory $inventory) {
                 $donor_id = $inventory->donor_id;
 
-                $inventories = Inventory::where('donor_id',$donor_id)->orderByRaw("CAST(count as Integer) DESC")->get();
+                $inventories = Inventory::where('donor_id',$donor_id)->orderByRaw("count DESC")->get();
 
                 $dod = \Carbon\Carbon::parse($inventories[0]->dod);
 
@@ -299,7 +299,7 @@ class InventoryController extends Controller
 
                 $donor_id = $inventory->donor_id;
 
-                $inventories = Inventory::where('donor_id',$donor_id)->orderByRaw("CAST(count as Integer) DESC")->get();
+                $inventories = Inventory::where('donor_id',$donor_id)->orderByRaw("count DESC")->get();
 
                 $count = $inventories[0]->count;
 

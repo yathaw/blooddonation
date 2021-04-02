@@ -207,7 +207,7 @@ class DonorController extends Controller
             ->addColumn('lastdate', function(Donor $donor) {
                 $donor_id = $donor->id;
 
-                $inventories = Inventory::where('donor_id',$donor_id)->orderByRaw("CAST(count as Integer) DESC")->get();
+                $inventories = Inventory::where('donor_id',$donor_id)->orderByRaw("count DESC")->get();
 
 
                 if ($inventories->isEmpty()) {
@@ -229,7 +229,7 @@ class DonorController extends Controller
             ->addColumn('frequency', function(Donor $donor) {
                 $donor_id = $donor->id;
 
-                $inventories = Inventory::where('donor_id',$donor_id)->orderByRaw("CAST(count as Integer) DESC")->get();
+                $inventories = Inventory::where('donor_id',$donor_id)->orderByRaw("count DESC")->get();
 
                 // dd($inventories->isEmpty());
 
@@ -265,7 +265,7 @@ class DonorController extends Controller
                 $dob = $doborigin->format('M d, Y');
 
                 $donor_id = $donor->id;
-                $inventories = Inventory::where('donor_id',$donor_id)->orderByRaw("CAST(count as Integer) DESC")->get();
+                $inventories = Inventory::where('donor_id',$donor_id)->orderByRaw("count DESC")->get();
 
                 if ($inventories->isEmpty()) {
                     $lastdate = ' - ';

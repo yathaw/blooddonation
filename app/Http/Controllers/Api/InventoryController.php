@@ -121,7 +121,7 @@ class InventoryController extends Controller
 
     public function ongoingdonors(){
         $donors = Donor::with(['inventories' => function ($inventory) {
-                $inventory->orderByRaw("CAST(count as Integer) DESC")->first();
+                $inventory->orderByRaw("count DESC")->first();
                 }])->get();
 
         $now = Carbon::now();
@@ -129,7 +129,7 @@ class InventoryController extends Controller
         $donorids =[];
 
         foreach ($donors as $donor) {
-            $inventories = Inventory::where('donor_id',$donor->id)->orderByRaw("CAST(count as Integer) DESC")->get();
+            $inventories = Inventory::where('donor_id',$donor->id)->orderByRaw("count DESC")->get();
 
             if (!$inventories->isEmpty()) {
                 $dod = Carbon::parse($inventories[0]->dod);
